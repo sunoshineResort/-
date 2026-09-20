@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex" />
+  <title>Build the Sun Shine Resort brochure</title>
+  <style>
+    body { font-family: 'Lato', system-ui, sans-serif; max-width: 640px; margin: 80px auto; padding: 0 24px; color: #2c2c2c; }
+    h1 { font-size: 1.4rem; margin-bottom: 12px; }
+    p { line-height: 1.7; }
+    code { background: #f2f2f2; padding: 2px 6px; border-radius: 4px; }
+    button { margin-top: 20px; padding: 14px 28px; border: none; border-radius: 50px; background: #1a1a1a; color: #fff; font-size: 0.95rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; }
+    button:disabled { opacity: 0.5; cursor: default; }
+  </style>
+</head>
+<body>
+  <h1>Build the brochure PDF</h1>
+  <p>This page rebuilds the brochure from the photo sections in <code>index.html</code>. Run it after
+     adding or removing photos, then save the download over
+     <code>brochure/Sun-Shine-Resort-Brochure.pdf</code> so the website's Brochure PDF button serves
+     the new version.</p>
+  <p>It must be opened over <code>http</code> — a local server or the live site. Opened from a
+     <code>file://</code> path, browsers block reading the photos and the build fails.</p>
+  <button type="button" id="buildBtn">Build brochure PDF</button>
+
+  <script src="js/jspdf.umd.min.js"></script>
+  <script src="js/brochure.js"></script>
+  <script>
+    const btn = document.getElementById('buildBtn');
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      btn.textContent = 'Building…';
+      try {
+        await window.buildBrochure();
+      } catch (err) {
+        alert('Could not build the brochure: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Build brochure PDF';
+      }
+    });
+  </script>
+</body>
+</html>
